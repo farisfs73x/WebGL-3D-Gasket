@@ -137,6 +137,31 @@ window.onload = function init() {
     scale = event.srcElement.value;
   };
 
+  window.onkeydown = function(event) {
+    var key = String.fromCharCode(event.keyCode);
+    switch(key) {
+      case '0':
+        speed = 100;
+        break;
+
+      case '1':
+        speed = 75;
+        break;
+
+      case '2':
+        speed = 50;
+        break;
+
+      case '3':
+        speed = 25;
+        break;
+
+      case '4':
+        speed = 0;
+        break;
+    }
+  };
+
   // Speed and slider bar
   document.getElementById("speed").onchange = function() {
 
@@ -408,7 +433,7 @@ function render() {
   // Animation gasket
   if (rotateGasket) {
     count += 1;
-    buttonDisable = true; 
+    buttonDisable = true;
     
     if (axis_choice == 0) {
       // Rotate to right 180 degree
@@ -573,92 +598,6 @@ function render() {
       }
     }
 
-    
-
-
-/*
-    if(count>458){
-    do{
-      count=1;
-      count=+1;
-      if(count<50)
-      {
-        translate[xAxis] += (direction ? 0.010 : -0.1);
-      //translate[yAxis] += (direction ? 0.010 : -0.1);
-      gl.uniform3fv(translation, translate);
-      document.getElementById('ctr').value = count; 
-      }
-      if(count>=50&&count<=150)
-      {
-        translate[xAxis] += (direction ? 0.010 : -0.1);
-        //translate[yAxis] += (direction ? 0.010 : -0.1);
-        gl.uniform3fv(translation, translate);
-        document.getElementById('ctr').value = count; 
-      }
-      if(count>150)
-      {
-        count=0;
-      }
-    }
-     
-    while(count>458){}
-  }
-   /* if (count>= 458) {
-      
-        if (count>=458 && count<=508) {
-          translate[xAxis] += (direction ? 0.010 : -0.1);
-          //translate[yAxis] += (direction ? 0.010 : -0.1);
-        gl.uniform3fv(translation, translate);
-          //document.getElementById('ctr').value = count; 
-        }
-          
-
-        if (count>=508 && count<=608) {
-            translate[xAxis] -= (direction ? 0.010 : -0.1);
-            //translate[yAxis] -= (direction ? 0.010 : -0.1);
-            gl.uniform3fv(translation, translate);
-            document.getElementById('ctr').value = count; }
-             
-        } 
-
-        /*if (count>=570 && count<=630) {
-            translate[xAxis] -= (direction ? 0.010 : -0.1);
-            translate[yAxis] -= (direction ? 0.010 : -0.1);
-            gl.uniform3fv(translation, translate);
-            document.getElementById('ctr').value = count; }
-            //move from center to downwards 
-        }  */
-        
-        /*  
-        if (count>=450&&count<=500) {
-          translate[xAxis] -= (direction ? 0.010 : -0.1);
-          translate[yAxis] -= (direction ? 0.010 : -0.1);
-          gl.uniform3fv(translation, translate);
-          document.getElementById('ctr').value = count; }
-          //move from center to downwards 
-          
-        if (count>=520&&count<=580) {
-          translate[xAxis] += (direction ? 0.008 : -0.1);
-          translate[yAxis] += (direction ? 0.008 : -0.1);
-          gl.uniform3fv(translation, translate);
-          document.getElementById('ctr').value = count; }
-          
-        if (count>=580&&count<=640) {
-          translate[xAxis] -= (direction ? 0.008 : -0.1);
-          translate[yAxis] -= (direction ? 0.008 : -0.1);
-          gl.uniform3fv(translation, translate);
-          document.getElementById('ctr').value = count; }
-          */
-         
-     /*translate[xAxis] -= (direction ? 0.080 : -0.1);
-     // translate[yAxis] -= (direction ? 0.080 : -0.1);
-
-      translate[xAxis] += (direction ? 0.080 : +0.1);
-      translate[yAxis] += (direction ? 0.080 : 0.1);
-      gl.uniform3fv(translation, translate);
-      document.getElementById('ctr').value = count; }
-      
-    }*/
   }
    else {
 
