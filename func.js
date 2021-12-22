@@ -1,4 +1,8 @@
-///////////////////////////////// Variables Name ///////////////////////////////
+// ----------------------------------------------
+// Credit to: Zaim Wafiuddin & Wan Mohammad Faris
+// ----------------------------------------------
+
+// -----------------------Name of Variables-----------------------
 var gl;
 var points = [];
 var colors = [];
@@ -59,8 +63,9 @@ var vPosition, vColor;
 var cBuffer, // Colour values
   vBuffer; // Vertex points
 
+// Init function (WINDOW EVENT)
 window.onload = function init() {
-  canvas = document.getElementById("gl-canvas");
+  canvas = document.getElementById("webgl-canvas");
 
   gl = WebGLUtils.setupWebGL(canvas);
   if (!gl) {
@@ -85,24 +90,19 @@ window.onload = function init() {
   divideTetra(vertices[0], vertices[1], vertices[2], vertices[3],
     NumTimesToSubdivide);
 
-  //
   //  Configure WebGL
-  //
   gl.viewport(0, 0, canvas.width, canvas.height);
   gl.clearColor(1.0, 1.0, 1.0, 1.0);
 
   // Enable hidden-surface removal
-
   gl.enable(gl.DEPTH_TEST);
 
   //  Load shaders and initialize attribute buffers
-
   program = initShaders(gl, "vertex-shader", "fragment-shader");
   gl.useProgram(program);
 
   // Create a buffer object, initialize it, and associate it with the
   //  associated attribute variable in our vertex shader
-
   cBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, cBuffer);
 
@@ -130,67 +130,64 @@ window.onload = function init() {
   scaleLocates = gl.getUniformLocation(program, "scales");
 
 
-  /////////////////////////// Selection bar start //////////////////////////////
+  // -----------------------Selection bar start-----------------------
   // Scale and selection bar
-  document.getElementById("scale").onchange = function() {
-
+  document.getElementById("scales").onchange = function () {
     scale = event.srcElement.value;
   };
 
-  window.onkeydown = function(event) {
+  // Keydown event function for speed (0 to 4) (0 - Slowest | 4 - Fastest) (KEYDOWN EVENT)
+  window.onkeydown = function (event) {
     var key = String.fromCharCode(event.keyCode);
-    switch(key) {
+    switch (key) {
       case '0':
-        speed = 100;
+        speed = 100;  //Speed 0%
         break;
 
       case '1':
-        speed = 75;
+        speed = 75;  //Speed 25%
         break;
 
       case '2':
-        speed = 50;
+        speed = 50;  //Speed 50%
         break;
 
       case '3':
-        speed = 25;
+        speed = 25;  //Speed 75%
         break;
 
       case '4':
-        speed = 0;
+        speed = 0;  //Speed 100%
         break;
     }
   };
 
   // Speed and slider bar
-  document.getElementById("speed").onchange = function() {
-
+  document.getElementById("speeds").onchange = function () {
     speed = 100 - event.srcElement.value;
     speeds = event.srcElement.value;
   };
 
   // Subdivision and slider bar
-  document.getElementById("subdivision").onchange = function() {
-
+  document.getElementById("subdivisions").onchange = function () {
     NumTimesToSubdivide = event.srcElement.value;
     points = [];
-    divideTetra(vertices[0], vertices[1], vertices[2], vertices[3],
-      NumTimesToSubdivide);
+    divideTetra(vertices[0], vertices[1], vertices[2], vertices[3], NumTimesToSubdivide);
   };
 
-
-  document.getElementById("axis-x").onclick = function() {
+  // Rotation axis (based on x-axis @ y-axis @ z-axis)
+  document.getElementById("axis-x").onclick = function () {
     axis_choice = 0;
   }
-  document.getElementById("axis-y").onclick = function() {
+  document.getElementById("axis-y").onclick = function () {
     axis_choice = 1;
   }
-  document.getElementById("axis-z").onclick = function() {
+  document.getElementById("axis-z").onclick = function () {
     axis_choice = 2;
   }
 
-  document.getElementById("convertaqua").onclick = function() {
-
+  // Gasket change to AQUA color
+  document.getElementById("convert-aqua").onclick = function () {
     red1 = 0.0;
     red2 = 0.0;
     red3 = 0.0;
@@ -209,8 +206,8 @@ window.onload = function init() {
     gl.drawArrays(gl.TRIANGLES, 0, points.length);
   }
 
-  document.getElementById("convertpurple").onclick = function() {
-
+  // Gasket change to PURPLE color
+  document.getElementById("convert-purple").onclick = function () {
     red1 = 0.6;
     red2 = 0.1;
     red3 = 1.0;
@@ -229,8 +226,8 @@ window.onload = function init() {
     gl.drawArrays(gl.TRIANGLES, 0, points.length);
   }
 
-  document.getElementById("convertyellow").onclick = function() {
-
+  // Gasket change to YELLOW color
+  document.getElementById("convert-yellow").onclick = function () {
     red1 = 0.6;
     red2 = 0.1;
     red3 = 1.0;
@@ -249,8 +246,8 @@ window.onload = function init() {
     gl.drawArrays(gl.TRIANGLES, 0, points.length);
   }
 
-  document.getElementById("convertred").onclick = function() {
-
+  // Gasket change to RED color
+  document.getElementById("convert-red").onclick = function () {
     red1 = 0.6;
     red2 = 0.1;
     red3 = 1.0;
@@ -269,8 +266,8 @@ window.onload = function init() {
     gl.drawArrays(gl.TRIANGLES, 0, points.length);
   }
 
-  document.getElementById("convertgreen").onclick = function() {
-
+  // Gasket change to GREEN color
+  document.getElementById("convert-green").onclick = function () {
     red1 = 0.0;
     red2 = 0.0;
     red3 = 0.0;
@@ -289,9 +286,8 @@ window.onload = function init() {
     gl.drawArrays(gl.TRIANGLES, 0, points.length);
   }
 
-
-  document.getElementById("convertblue").onclick = function() {
-
+  // Gasket change to BLUE color
+  document.getElementById("convert-blue").onclick = function () {
     red1 = 0.0;
     red2 = 0.0;
     red3 = 0.0;
@@ -310,40 +306,42 @@ window.onload = function init() {
     gl.drawArrays(gl.TRIANGLES, 0, points.length);
   }
 
-  // Play button
-  document.getElementById("start").onclick = function() {
+  // Start button
+  document.getElementById("start").onclick = function () {
 
-    rotateGasket = true;
+    rotateGasket = true;  // If start button clicked, rotateGasket condition equal to true.
 
     buttonDisable = true;
-    document.getElementById("subdivision").disabled = buttonDisable;
-    document.getElementById("scale").disabled = buttonDisable;
-    document.getElementById("speed").disabled = buttonDisable;
-    document.getElementById("convertaqua").disabled = buttonDisable;
-    document.getElementById("convertpurple").disabled = buttonDisable;
-    document.getElementById("convertyellow").disabled = buttonDisable;
-    document.getElementById("convertblue").disabled = buttonDisable;
-    document.getElementById("convertgreen").disabled = buttonDisable;
-    document.getElementById("convertred").disabled = buttonDisable;
+    document.getElementById("subdivisions").disabled = buttonDisable;
+    document.getElementById("scales").disabled = buttonDisable;
+    document.getElementById("speeds").disabled = buttonDisable;
+    document.getElementById("convert-aqua").disabled = buttonDisable;
+    document.getElementById("convert-purple").disabled = buttonDisable;
+    document.getElementById("convert-yellow").disabled = buttonDisable;
+    document.getElementById("convert-blue").disabled = buttonDisable;
+    document.getElementById("convert-green").disabled = buttonDisable;
+    document.getElementById("convert-red").disabled = buttonDisable;
     document.getElementById("axis-x").disabled = buttonDisable;
     document.getElementById("axis-y").disabled = buttonDisable;
     document.getElementById("axis-z").disabled = buttonDisable;
   };
 
   // Stop button
-  document.getElementById("stop").onclick = function() {
+  document.getElementById("stop").onclick = function () {
 
-    rotateGasket = false;
+    rotateGasket = false;  // If stop button clicked, rotateGasket condition equal to false.
   }
 
-  // Refresh browser page
-  document.getElementById("reset").onclick = function() {
-    window.location.reload();
+  // Reset button (Refresh browser page)
+  document.getElementById("reset").onclick = function () {
+
+    window.location.reload();  // If reset button clicked, the browser will refresh (reload). (WINDOW EVENT)
   }
 
   render();
 };
 
+// Reset color
 function colour_reset() {
 
   points = [];
@@ -356,6 +354,7 @@ function colour_reset() {
   gl.enableVertexAttribArray(colorLocation);
 };
 
+// Triangle function
 function triangle(a, b, c, color) {
 
   // Add colors and vertices for one triangle
@@ -374,6 +373,7 @@ function triangle(a, b, c, color) {
   points.push(c);
 }
 
+// Tetra function
 function tetra(a, b, c, d) {
 
   // Tetrahedron with each side using
@@ -384,6 +384,7 @@ function tetra(a, b, c, d) {
   triangle(b, c, d, 3);
 }
 
+// Divide tetre function
 function divideTetra(a, b, c, d, count) {
 
   // Check for end of recursion
@@ -410,12 +411,13 @@ function divideTetra(a, b, c, d, count) {
   }
 }
 
+// Render function
 function render() {
 
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-  document.getElementById('countscale').value = scale;
-  document.getElementById('countsubdivision').value = NumTimesToSubdivide;
-  document.getElementById('countspeed').value = speeds;
+  document.getElementById('countscales').value = scale;
+  document.getElementById('countsubdivisions').value = NumTimesToSubdivide;
+  document.getElementById('countspeeds').value = speeds;
   gl.uniform1f(scaleLocate, scale);
 
   // Load all data into GPU
@@ -434,128 +436,161 @@ function render() {
   if (rotateGasket) {
     count += 1;
     buttonDisable = true;
-    
+
+    // axis_choice = 0 (Gasket will rotate based on x-axis)
     if (axis_choice == 0) {
+
       // Rotate to right 180 degree
       if (count <= 90) {
+
         rotate[xAxis] += (true ? 2.0 : -2.0);
         gl.uniform3fv(rotates, rotate);
         document.getElementById('ctr').value = count;
+
       }
 
       // Rotate to orginal orientation
       if (count >= 100 && count <= 189) {
+
         rotate[xAxis] += (false ? 2.0 : -2.0);
         gl.uniform3fv(rotates, rotate);
         document.getElementById('ctr').value = count;
+
       }
-      
+
       // Rotate to left 180 degree
       if (count >= 209 && count <= 298) {
+
         rotate[xAxis] += (false ? 2.0 : -2.0);
         gl.uniform3fv(rotates, rotate);
         document.getElementById('ctr').value = count;
+
       }
+
       // Rotate to original orientation
-      if (count > 308 && count <= 398 ) {
+      if (count > 308 && count <= 398) {
+
         rotate[xAxis] += (true ? 2.0 : -2.0);
         gl.uniform3fv(rotates, rotate);
         document.getElementById('ctr').value = count;
-      }
-    }
-    else if (axis_choice == 1) {
-      // Rotate to right 180 degree
-      if (count <= 90) {
-        rotate[yAxis] += (true ? 2.0 : -2.0);
-        gl.uniform3fv(rotates, rotate);
-        document.getElementById('ctr').value = count;
-      }
 
-      // Rotate to orginal orientation
-      if (count >= 100 && count <= 189) {
-        rotate[yAxis] += (false ? 2.0 : -2.0);
-        gl.uniform3fv(rotates, rotate);
-        document.getElementById('ctr').value = count;
       }
-      
-      // Rotate to left 180 degree
-      if (count >= 209 && count <= 298) {
-        rotate[yAxis] += (false ? 2.0 : -2.0);
-        gl.uniform3fv(rotates, rotate);
-        document.getElementById('ctr').value = count;
-      }
-      // Rotate to original orientation
-      if (count > 308 && count <= 398 ) {
-        rotate[yAxis] += (true ? 2.0 : -2.0);
-        gl.uniform3fv(rotates, rotate);
-        document.getElementById('ctr').value = count;
-      }
-    }
-    else {
-      // Rotate to right 180 degree
-      if (count <= 90) {
-        rotate[zAxis] += (true ? 2.0 : -2.0);
-        gl.uniform3fv(rotates, rotate);
-        document.getElementById('ctr').value = count;
-      }
-
-      // Rotate to orginal orientation
-      if (count >= 100 && count <= 189) {
-        rotate[zAxis] += (false ? 2.0 : -2.0);
-        gl.uniform3fv(rotates, rotate);
-        document.getElementById('ctr').value = count;
-      }
-      
-      // Rotate to left 180 degree
-      if (count >= 209 && count <= 298) {
-        rotate[zAxis] += (false ? 2.0 : -2.0);
-        gl.uniform3fv(rotates, rotate);
-        document.getElementById('ctr').value = count;
-      }
-      // Rotate to original orientation
-      if (count > 308 && count <= 398 ) {
-        rotate[zAxis] += (true ? 2.0 : -2.0);
-        gl.uniform3fv(rotates, rotate);
-        document.getElementById('ctr').value = count;
-      }
-    }
     
+    // axis_choice = 1 (Gasket will rotate based on y-axis)
+    } else if (axis_choice == 1) {
 
-    // Enlarge 3D gasket
+      // Rotate to right 180 degree
+      if (count <= 90) {
+
+        rotate[yAxis] += (true ? 2.0 : -2.0);
+        gl.uniform3fv(rotates, rotate);
+        document.getElementById('ctr').value = count;
+
+      }
+
+      // Rotate to orginal orientation
+      if (count >= 100 && count <= 189) {
+
+        rotate[yAxis] += (false ? 2.0 : -2.0);
+        gl.uniform3fv(rotates, rotate);
+        document.getElementById('ctr').value = count;
+
+      }
+
+      // Rotate to left 180 degree
+      if (count >= 209 && count <= 298) {
+
+        rotate[yAxis] += (false ? 2.0 : -2.0);
+        gl.uniform3fv(rotates, rotate);
+        document.getElementById('ctr').value = count;
+
+      }
+      // Rotate to original orientation
+      if (count > 308 && count <= 398) {
+
+        rotate[yAxis] += (true ? 2.0 : -2.0);
+        gl.uniform3fv(rotates, rotate);
+        document.getElementById('ctr').value = count;
+
+      }
+
+    }
+
+    // axis_choice = 2 (Gasket will rotate based on z-axis)
+    else {
+
+      // Rotate to right 180 degree
+      if (count <= 90) {
+
+        rotate[zAxis] += (true ? 2.0 : -2.0);
+        gl.uniform3fv(rotates, rotate);
+        document.getElementById('ctr').value = count;
+
+      }
+
+      // Rotate to orginal orientation
+      if (count >= 100 && count <= 189) {
+
+        rotate[zAxis] += (false ? 2.0 : -2.0);
+        gl.uniform3fv(rotates, rotate);
+        document.getElementById('ctr').value = count;
+
+      }
+
+      // Rotate to left 180 degree
+      if (count >= 209 && count <= 298) {
+
+        rotate[zAxis] += (false ? 2.0 : -2.0);
+        gl.uniform3fv(rotates, rotate);
+        document.getElementById('ctr').value = count;
+
+      }
+      // Rotate to original orientation
+      if (count > 308 && count <= 398) {
+
+        rotate[zAxis] += (true ? 2.0 : -2.0);
+        gl.uniform3fv(rotates, rotate);
+        document.getElementById('ctr').value = count;
+
+      }
+    }
+
+
+    // Enlarge the 3D gasket after rotate
     if (count >= 408 && count <= 458) {
       scales += 0.003;
       gl.uniform1f(scaleLocates, scales);
       document.getElementById('ctr').value = count;
     }
-    
+
     // For the smallest scale
     if (scale == 1) {
 
       // Move to right
-      if(count>458 && count < 522){
-      translate[xAxis] += (direction ? 0.010 : -0.1);
-      // translate[yAxis] += (direction ? 0.010 : -0.1);
-      gl.uniform3fv(translation, translate);
-      document.getElementById('ctr').value = count;
-      }
-      
-      // Move to left
-      if(count>522 && count < 648){
-      translate[xAxis] -= (direction ? 0.010 : -0.1);
-      // translate[yAxis] += (direction ? 0.010 : -0.1);
-      gl.uniform3fv(translation, translate);
-      document.getElementById('ctr').value = count;
-      }
-
-      // Move to right
-      if(count>648 && count < 712){
+      if (count > 458 && count < 522) {
         translate[xAxis] += (direction ? 0.010 : -0.1);
         // translate[yAxis] += (direction ? 0.010 : -0.1);
         gl.uniform3fv(translation, translate);
         document.getElementById('ctr').value = count;
       }
 
-      // Enlarge 3D gasket
+      // Move to left
+      if (count > 522 && count < 648) {
+        translate[xAxis] -= (direction ? 0.010 : -0.1);
+        // translate[yAxis] += (direction ? 0.010 : -0.1);
+        gl.uniform3fv(translation, translate);
+        document.getElementById('ctr').value = count;
+      }
+
+      // Move back to the right to the center
+      if (count > 648 && count < 712) {
+        translate[xAxis] += (direction ? 0.010 : -0.1);
+        // translate[yAxis] += (direction ? 0.010 : -0.1);
+        gl.uniform3fv(translation, translate);
+        document.getElementById('ctr').value = count;
+      }
+
+      // Reduce back the 3D gasket size
       if (count >= 712 && count <= 762) {
         scales -= 0.003;
         gl.uniform1f(scaleLocates, scales);
@@ -567,30 +602,30 @@ function render() {
     else {
 
       // Move to right
-      if(count>458 && count < 500){
+      if (count > 458 && count < 500) {
         translate[xAxis] += (direction ? 0.010 : -0.1);
-      //translate[yAxis] += (direction ? 0.010 : -0.1);
-      gl.uniform3fv(translation, translate);
-      document.getElementById('ctr').value = count; 
+        //translate[yAxis] += (direction ? 0.010 : -0.1);
+        gl.uniform3fv(translation, translate);
+        document.getElementById('ctr').value = count;
       }
 
       // Move to left
-      if(count>500 && count < 582){
+      if (count > 500 && count < 582) {
         translate[xAxis] -= (direction ? 0.010 : -0.1);
-      //translate[yAxis] += (direction ? 0.010 : -0.1);
-      gl.uniform3fv(translation, translate);
-      document.getElementById('ctr').value = count; 
+        //translate[yAxis] += (direction ? 0.010 : -0.1);
+        gl.uniform3fv(translation, translate);
+        document.getElementById('ctr').value = count;
       }
 
-      // Move to right
-      if(count>582 && count < 624){
+      // Move back to the right to the center
+      if (count > 582 && count < 624) {
         translate[xAxis] += (direction ? 0.010 : -0.1);
-      //translate[yAxis] += (direction ? 0.010 : -0.1);
-      gl.uniform3fv(translation, translate);
-      document.getElementById('ctr').value = count; 
+        //translate[yAxis] += (direction ? 0.010 : -0.1);
+        gl.uniform3fv(translation, translate);
+        document.getElementById('ctr').value = count;
       }
 
-      // Enlarge 3D gasket
+      // Reduce back the 3D gasket size
       if (count >= 624 && count <= 674) {
         scales -= 0.003;
         gl.uniform1f(scaleLocates, scales);
@@ -598,20 +633,19 @@ function render() {
       }
     }
 
-  }
-   else {
+  } else {
 
     // Enable button
     buttonDisable = false;
-    document.getElementById("subdivision").disabled = buttonDisable;
-    document.getElementById("scale").disabled = buttonDisable;
-    document.getElementById("speed").disabled = buttonDisable;
-    document.getElementById("convertaqua").disabled = buttonDisable;
-    document.getElementById("convertpurple").disabled = buttonDisable;
-    document.getElementById("convertyellow").disabled = buttonDisable;
-    document.getElementById("convertblue").disabled = buttonDisable;
-    document.getElementById("convertgreen").disabled = buttonDisable;
-    document.getElementById("convertred").disabled = buttonDisable;
+    document.getElementById("subdivisions").disabled = buttonDisable;
+    document.getElementById("scales").disabled = buttonDisable;
+    document.getElementById("speeds").disabled = buttonDisable;
+    document.getElementById("convert-aqua").disabled = buttonDisable;
+    document.getElementById("convert-purple").disabled = buttonDisable;
+    document.getElementById("convert-yellow").disabled = buttonDisable;
+    document.getElementById("convert-blue").disabled = buttonDisable;
+    document.getElementById("convert-green").disabled = buttonDisable;
+    document.getElementById("convert-red").disabled = buttonDisable;
     document.getElementById("axis-x").disabled = buttonDisable;
     document.getElementById("axis-y").disabled = buttonDisable;
     document.getElementById("axis-z").disabled = buttonDisable;
@@ -623,7 +657,7 @@ function render() {
 
   // Speed
   setTimeout(
-    function() {
+    function () {
       requestAnimFrame(render);
     },
     speed

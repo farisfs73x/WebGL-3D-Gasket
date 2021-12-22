@@ -1,3 +1,9 @@
+// ----------------------------------------------
+// Credit to: Zaim Wafiuddin & Wan Mohammad Faris
+// ----------------------------------------------
+
+// -----------------Javascript for popup 'info' purpose----------------- //
+
 $('.button-1').click(function () {
     $('.alert').addClass("show");
     $('.alert').removeClass("hide");

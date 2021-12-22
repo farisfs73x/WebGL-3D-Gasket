@@ -1,190 +1,205 @@
+<!-- -------------------------------------------
+Credit to: Zaim Wafiuddin & Wan Mohammad Faris
+-------------------------------------------- -->
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+	<head>
+        <meta http-equiv="Content-Type" content="text/html" charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+        <!-- Primary Meta Tags -->
+        <title>3D Gasket</title>
+        <meta name="title" content="3D Gasket">
+        <meta name="description" content="3D Gasket with Rotation, Enlargement and Movement.">
+    
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://farisfs73x.github.io/3D-Gasket/">
+        <meta property="og:title" content="3D Gasket">
+        <meta property="og:description" content="3D Gasket with Rotation, Enlargement and Movement.">
+        <meta property="og:image" content="img/3d-gasket.png">
+    
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="https://farisfs73x.github.io/3D-Gasket/">
+        <meta property="twitter:title" content="3D Gasket">
+        <meta property="twitter:description" content="3D Gasket with Rotation, Enlargement and Movement.">
+        <meta property="twitter:image" content="img/3d-gasket.png">
 
-<head>
-	<meta http-equiv="Content-Type" content="text/html" charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- External css file -->
+		<link rel="stylesheet" href="style.css">
 
-	<!-- Primary Meta Tags -->
-	<title>3D Gasket</title>
-	<meta name="title" content="3D Gasket">
-	<meta name="description" content="3D Gasket with Rotation, Enlargement and Movement.">
+		<script id="vertex-shader" type="x-shader/x-vertex">
+			attribute vec4 vPosition;
+			attribute vec4 vColor;
 
-	<!-- Open Graph / Facebook -->
-	<meta property="og:type" content="website">
-	<meta property="og:url" content="https://farisfs73x.github.io/3D-Gasket/">
-	<meta property="og:title" content="3D Gasket">
-	<meta property="og:description" content="3D Gasket with Rotation, Enlargement and Movement.">
-	<meta property="og:image" content="img/3d-gasket.png">
+			uniform float scale;
+			uniform float scales;
+			uniform vec3 rotate;
+			uniform vec3 translate;
+			uniform mat4 modelViewMatrix;
 
-	<!-- Twitter -->
-	<meta property="twitter:card" content="summary_large_image">
-	<meta property="twitter:url" content="https://farisfs73x.github.io/3D-Gasket/">
-	<meta property="twitter:title" content="3D Gasket">
-	<meta property="twitter:description" content="3D Gasket with Rotation, Enlargement and Movement.">
-	<meta property="twitter:image" content="img/3d-gasket.png">
+			varying vec4 fColor;
 
-	<link rel="stylesheet" href="style.css">
-
-	<script id="vertex-shader" type="x-shader/x-vertex">
-		attribute vec4 vPosition;
-	attribute vec4 vColor;
-
-	uniform float scale;
-	uniform float scales;
-	uniform vec3 rotate;
-	uniform vec3 translate;
-	uniform mat4 modelViewMatrix;
-
-	varying vec4 fColor;
-
-	void main() {
-		// Compute the sines and cosines of rotate for each of
-		//   the three axes in one computation.
-		vec3 angles = radians( rotate );
-		vec3 c = cos( angles );
-		vec3 s = sin( angles );
-
-
-		mat4 rx = mat4( 1.0,  0.0,  0.0, 0.0,
-						0.0,  c.x,  s.x, 0.0,
-						0.0, -s.x,  c.x, 0.0,
-						0.0,  0.0,  0.0, 2.0-(scale*0.5)-scales);
-
-		mat4 ry = mat4( c.y, 0.0, -s.y, 0.0,
-						0.0, 1.0,  0.0, 0.0,
-						s.y, 0.0,  c.y, 0.0,
-						0.0, 0.0,  0.0, 1.0);
+			void main() {
+				// Compute the sines and cosines of rotate for each of
+				//   the three axes in one computation.
+				vec3 angles = radians( rotate );
+				vec3 c = cos( angles );
+				vec3 s = sin( angles );
 
 
-		mat4 rz = mat4( c.z, -s.z, 0.0, 0.0,
-						s.z,  c.z, 0.0, 0.0,
-						0.0,  0.0, 1.0, 0.0,
-						0.0,  0.0, 0.0, 1.0);
+				mat4 rx = mat4( 1.0,  0.0,  0.0, 0.0,
+								0.0,  c.x,  s.x, 0.0,
+								0.0, -s.x,  c.x, 0.0,
+								0.0,  0.0,  0.0, 2.0-(scale*0.5)-scales);
+
+				mat4 ry = mat4( c.y, 0.0, -s.y, 0.0,
+								0.0, 1.0,  0.0, 0.0,
+								s.y, 0.0,  c.y, 0.0,
+								0.0, 0.0,  0.0, 1.0);
 
 
-		// Translation matrix
-		mat4 tr = mat4(1.0, 0.0, 0.0, 0.0,
-						0.0, 1.0, 0.0, 0.0,
-						0.0, 0.0, 1.0, 0.0,
-						translate.x, translate.y, translate.z, 1.0);
-
-		// Assign color to the fColor variable. Then it can be passed to the fragment shader
-		fColor = vColor;
-
-		// gl_Position is a varying variable which contains the coordinates of the vertex
-		// When the shader has finished messing around with it.
-		gl_Position = tr* rz * ry * rx * vPosition;
-	}
-	</script>
-
-	<script id="fragment-shader" type="x-shader/x-fragment">
-		precision mediump float;
-	varying vec4 fColor;
-	varying vec4 color;
-
-	void
-	main()
-	{
-		gl_FragColor = fColor;
-	}
-	</script>
-
-	<script type="text/javascript" src="Common/webgl-utils.js"></script>
-	<script type="text/javascript" src="Common/initShaders.js"></script>
-	<script type="text/javascript" src="Common/MV.js"></script>
-	<script type="text/javascript" src="func.js"></script>
-
-	<link rel="stylesheet" href="popup.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-</head>
-
-<body>
-
-	<h1 class="dl-none unsupported">Your devices is not supported to view this content. Please open via laptop!</h1>
+				mat4 rz = mat4( c.z, -s.z, 0.0, 0.0,
+								s.z,  c.z, 0.0, 0.0,
+								0.0,  0.0, 1.0, 0.0,
+								0.0,  0.0, 0.0, 1.0);
 
 
+				// Translation matrix
+				mat4 tr = mat4(1.0, 0.0, 0.0, 0.0,
+								0.0, 1.0, 0.0, 0.0,
+								0.0, 0.0, 1.0, 0.0,
+								translate.x, translate.y, translate.z, 1.0);
 
-	<nav class="d-none">
-		<ul>
+				// Assign color to the fColor variable. Then it can be passed to the fragment shader
+				fColor = vColor;
 
-			<h1 class="text-menu">Controller</h1>
+				// gl_Position is a varying variable which contains the coordinates of the vertex
+				// When the shader has finished messing around with it.
+				gl_Position = tr* rz * ry * rx * vPosition;
+		}
+		</script>
 
-			<li>
-				<div class="row wrapper-style container-1 bg-1">
-					<a>No. of Subdivision:
-						<input id="subdivision" type="range" min="1" max="5" step="1" class="slider">
-						<input type="text" id="countsubdivision">
-						Speed:
-						Slow
-						<input id="speed" type="range" min="0" max="100" step="10" value="50" class="slider">
-						Fast
-						<input type="text" id="countspeed">
-						Size:
-						<input id="scale" type="range" min="1" max="2" step="1" class="slider" value="1">
-						<input type="text" id="countscale">
-					</a>
+		<script id="fragment-shader" type="x-shader/x-fragment">
+			precision mediump float;
+			varying vec4 fColor;
+			varying vec4 color;
+
+			void
+			main()
+			{
+				gl_FragColor = fColor;
+			}
+		</script>
+
+		<!-- External js file -->
+		<script type="text/javascript" src="Common/webgl-utils.js"></script>
+		<script type="text/javascript" src="Common/initShaders.js"></script>
+		<script type="text/javascript" src="Common/MV.js"></script>
+		<script type="text/javascript" src="func.js"></script>
+
+		<!-- Second external css file for popup purpose -->
+		<link rel="stylesheet" href="popup.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+		<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
+	</head>
+
+	<body>
+
+		<!-- Note for devices except computer (Big screen). -->
+		<h1 class="dl-none unsupported">Your devices is not supported to view this content. Please open via laptop!</h1>
+
+		<nav class="d-none">
+			<ul>
+
+				<!-- Heading menu -->
+				<h1 class="text-menu">Controller</h1>
+
+				<!-- Subdivision, Speed & Size section -->
+				<li>
+					<div class="row wrapper-style container-1 bg-1">
+						<a>No. of Subdivision:
+							<input id="subdivisions" type="range" min="1" max="5" step="1" class="slider">
+							<input type="text" id="countsubdivisions">
+							Speed:
+							Slow
+							<input id="speeds" type="range" min="0" max="100" step="10" class="slider">
+							Fast
+							<input type="text" id="countspeeds">
+							Size:
+							<input id="scales" type="range" min="1" max="2" step="1" class="slider" value="1">
+							<input type="text" id="countscales">
+						</a>
+					</div>
+				</li>
+
+				<!-- Choose color section -->
+				<li>
+					<div class="row wrapper-style container-1 bg-2">
+						<a>Color:
+							<button id="convert-red" class="red"> Red</button>
+							<button id="convert-green" class="green"> Green</button>
+							<button id="convert-blue" class="blue"> Blue</button>
+							<button id="convert-yellow" class="yellow">Yellow</button>
+							<button id="convert-purple" class="purple">Purple</button>
+							<button id="convert-aqua" class="aqua">Aqua</button>
+						</a>
+					</div>
+				</li>
+
+				<!-- Counter, Main button & rotation axis section. -->
+				<li>
+					<div class="row wrapper-style container-1 bg-3">
+						<a>
+							Counter:
+							<span class="container-2 mr-10">
+								<input type="text" id="ctr" value="0" size="1">
+								<button id="start">Start</button>
+								<button id="stop">Stop</button>
+								<button id="reset">Reset</button>
+							</span>
+							Rotation:
+							<span class="container-2">
+								<button id="axis-x">Rotate x-axis</button>
+								<button id="axis-y">Rotate y-axis</button>
+								<button id="axis-z">Rotate z-axis</button>
+							</span>
+						</a>
+					</div>
+				</li>
+			</ul>
+		</nav>
+
+
+		<!-- Popup info -->
+		<span class="d-none">
+			<button class="button-1 button-2"><span>Info</span>
+				<div class="liquid"></div>
+			</button>
+			<div class="alert hide">
+				<span class="fas fa-exclamation-circle"></span>
+				<span class="msg">To change rotation and <br> movement speed, you can <br> press number 0 - 4 <br>
+					(0 - Slowest | 4 - Fastest)</span>
+				<div class="close-btn">
+					<span class="fas fa-times"></span>
 				</div>
-			</li>
-			<li>
-				<div class="row wrapper-style container-1 bg-2">
-					<a>Color:
-						<button id="convertred" class="red"> Red</button>
-						<button id="convertgreen" class="green"> Green</button>
-						<button id="convertblue" class="blue"> Blue</button>
-						<button id="convertyellow" class="yellow">Yellow</button>
-						<button id="convertpurple" class="purple">Purple</button>
-						<button id="convertaqua" class="aqua">Aqua</button>
-					</a>
-				</div>
-			</li>
-			<li>
-				<div class="row wrapper-style container-1 bg-3">
-					<a>
-						Counter:
-						<span class="container-2 mr-10">
-							<input type="text" id="ctr" value="0" size="1">
-							<button id="start">Start</button>
-							<button id="stop">Stop</button>
-							<button id="reset">Reset</button>
-						</span>
-						Rotation:
-						<span class="container-2">
-							<button id="axis-x">Rotate x-axis</button>
-							<button id="axis-y">Rotate y-axis</button>
-							<button id="axis-z">Rotate z-axis</button>
-						</span>
-					</a>
-				</div>
-			</li>
-		</ul>
-	</nav>
-	
-	
-	<span class="d-none">
-		<button class="button-1 button-2"><span>Info</span><div class="liquid"></div></button>
-		<div class="alert hide">
-			<span class="fas fa-exclamation-circle"></span>
-			<span class="msg">To change rotation and <br> movement speed, you can <br> press number 0 - 4 <br>
-				(0 - Slowest | 4 - Fastest)</span>
-			<div class="close-btn">
-				<span class="fas fa-times"></span>
+			</div>
+
+			<script src="popup.js"></script>
+		</span>
+
+		<!-- Canvas for WebGL -->
+		<div class="d-none">
+			<div class="container">
+				<canvas id="webgl-canvas" width="350" height="350">
+					Oops ... your browser doesn't support the HTML5 canvas element
+				</canvas>
 			</div>
 		</div>
 
-		<script src="popup.js"></script>
-	</span>
-
-	<div class="d-none">
-		<div class="container">
-			<canvas id="gl-canvas" width="350" height="350">
-				Oops ... your browser doesn't support the HTML5 canvas element
-			</canvas>
-		</div>
-	</div>
-
-
-</body>
+	</body>
 
 </html>

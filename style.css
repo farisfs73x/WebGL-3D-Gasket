@@ -1,3 +1,7 @@
+/* --------------------------------------------
+Credit to: Zaim Wafiuddin & Wan Mohammad Faris
+-------------------------------------------- */
+
 /* Default style */
 body {
     font-family: 'Courier New', Courier, monospace;
@@ -15,21 +19,21 @@ nav {
     position: fixed;
 }
 
-nav ul{
+nav ul {
     list-style-type: none;
 }
 
-nav ul li{
+nav ul li {
     display: inline;
 }
 
-nav ul li a{
+nav ul li a {
     display: inline;
     margin: 10px 30px 10px 30px;
 }
 
 /* Container HTML */
-.container{
+.container {
     display: block;
     margin-top: 20px;
     margin-left: auto;
@@ -39,10 +43,10 @@ nav ul li a{
 
 /* Create new line */
 .row {
-	width: 100%;
-	clear: both;
-	padding: 0px;
-	margin: 0px;
+    width: 100%;
+    clear: both;
+    padding: 0px;
+    margin: 0px;
     color: #283618;
     font-weight: bold;
 }
@@ -65,24 +69,25 @@ input[type=text] {
     background: #f5ffe9;
     color: rgb(252, 11, 11);
 }
+
 input[type='range'] {
     overflow: hidden;
     width: 100px;
     -webkit-appearance: none;
     background-color: #606c38;
-  }
+}
 
-  input[type='range']::-webkit-slider-thumb {
+input[type='range']::-webkit-slider-thumb {
     width: 10px;
     -webkit-appearance: none;
     height: 20px;
     cursor: ew-resize;
     background: #dda15e;
     box-shadow: -80px 0 0 80px #606c38;
-  }
+}
 
 /* Button */
-button{
+button {
     margin-left: 50px;
     height: 25px;
     background-color: #dda15e;
@@ -113,28 +118,33 @@ button{
     background-color: red;
     color: white;
 }
+
 .green {
     background-color: green;
     color: white;
 }
+
 .blue {
     background-color: blue;
     color: white;
 }
+
 .yellow {
     background-color: yellow;
 }
+
 .purple {
     background-color: purple;
     color: white;
 }
+
 .aqua {
     background-color: aqua;
     color: black;
 }
 
-#gl-canvas {
-    border:5px solid #606c38;
+#webgl-canvas {
+    border: 5px solid #606c38;
     border-radius: 10px;
 }
 
@@ -147,9 +157,11 @@ button{
 .bg-1 {
     background-color: #fefae0;
 }
+
 .bg-2 {
     background-color: #fefae0;
 }
+
 .bg-3 {
     background-color: #fefae0;
 }
@@ -164,17 +176,21 @@ button{
     margin-right: 10px;
 }
 
+
+/* -----------------Media query section----------------- */
 /* Big tablets to largest laptop screens */
 @media only screen and (min-width: 1023px) {
     .dl-none {
         display: none;
     }
 }
+
 /* Smaller tablets to larger tablets screens */
 @media only screen and (max-width: 1023px) {
     .d-none {
         display: none;
     }
+
     .unsupported {
         font-size: 50px;
         text-align: center;
@@ -183,11 +199,13 @@ button{
         vertical-align: middle;
     }
 }
+
 /* Larger phones to smaller tablets screens */
 @media only screen and (max-width: 767px) {
     .d-none {
         display: none;
     }
+
     .unsupported {
         font-size: 40px;
         text-align: center;
@@ -196,11 +214,13 @@ button{
         vertical-align: middle;
     }
 }
+
 /* Smaller phones to larger phones screens */
 @media only screen and (max-width: 479px) {
     .d-none {
         display: none;
     }
+
     .unsupported {
         font-size: 30px;
         text-align: center;
