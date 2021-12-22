@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" dir="ltr">
 
 <head>
-	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<meta http-equiv="Content-Type" content="text/html" charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<!-- Primary Meta Tags -->
@@ -27,7 +27,7 @@
 	<link rel="stylesheet" href="style.css">
 
 	<script id="vertex-shader" type="x-shader/x-vertex">
-	attribute vec4 vPosition;
+		attribute vec4 vPosition;
 	attribute vec4 vColor;
 
 	uniform float scale;
@@ -95,19 +95,22 @@
 	<script type="text/javascript" src="Common/MV.js"></script>
 	<script type="text/javascript" src="func.js"></script>
 
+	<link rel="stylesheet" href="popup.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 </head>
 
 <body>
 
-	<script>
-		alert('To change rotation and movement speed, you can press number 0 - 4 (0 - Slowest | 4 - Fastest)');
-	</script>
-
 	<h1 class="dl-none unsupported">Your devices is not supported to view this content. Please open via laptop!</h1>
+
+
 
 	<nav class="d-none">
 		<ul>
+
 			<h1 class="text-menu">Controller</h1>
+
 			<li>
 				<div class="row wrapper-style container-1 bg-1">
 					<a>No. of Subdivision:
@@ -157,6 +160,21 @@
 			</li>
 		</ul>
 	</nav>
+	
+	
+	<span class="d-none">
+		<button class="button-1 button-2"><span>Info</span><div class="liquid"></div></button>
+		<div class="alert hide">
+			<span class="fas fa-exclamation-circle"></span>
+			<span class="msg">To change rotation and <br> movement speed, you can <br> press number 0 - 4 <br>
+				(0 - Slowest | 4 - Fastest)</span>
+			<div class="close-btn">
+				<span class="fas fa-times"></span>
+			</div>
+		</div>
+
+		<script src="popup.js"></script>
+	</span>
 
 	<div class="d-none">
 		<div class="container">
@@ -165,6 +183,7 @@
 			</canvas>
 		</div>
 	</div>
+
 
 </body>
 
